@@ -1,0 +1,11 @@
+.van-tabs__nav--card,
+.van-tabs__nav {
+  margin: 0px 1.125rem;
+  border-radius: 0.15rem;
+  overflow: hidden;
+}
+
+/* .van-tabs--card>.van-tabs__wrap {
+  position: absolute !important;
+  z-index: 99;
+} */

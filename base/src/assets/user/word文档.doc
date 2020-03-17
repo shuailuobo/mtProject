@@ -1,0 +1,53 @@
+Mime-Version: 1.0
+Content-Base: https://api.wiseidc.com/psy/tls/2/2_1_home.html?t=16
+Content-Type: Multipart/related; boundary="NEXT.ITEM-BOUNDARY";type="text/html"
+
+--NEXT.ITEM-BOUNDARY
+Content-Type: text/html; charset="utf-8"
+Content-Location: https://api.wiseidc.com/psy/tls/2/2_1_home.html?t=16
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+
+</style>
+</head>
+<body>
+				<table class="layui-table appoint-audit">
+					<colgroup>
+						<col width="150">
+						<col width="150">
+						<col width="150">
+						<col width="150">
+						<col width="150">
+						<col width="150">
+						<col width="150">
+						<col>
+					</colgroup>
+					<thead>
+						<tr>
+							<th colspan="8">
+								<a href="javascript:;" class="bg-red fl" id="add"><span class="icon iconfont icon-xinzeng f_fff"></span> 新增</a>
+								<a onclick="reloadTap()" href="javascript:;" class="bg-094 fl"><span class=" icon iconfont icon-refresh f_fff"></span> 刷新</a>
+								<a href="javascript:;" class="bg-094 fr exportWordTap"><span class="icon iconfont icon-daochu f_fff"></span> 导出</a>
+							</th>
+						</tr>
+					</thead>
+					<thead>
+						<tr>
+							<th width="5%">序号</th>
+							<th width="10%">ID</th>
+							<th width="10%">姓名</th>
+							<th width="14%">手机号码</th>
+							<th width="10%">来访登记</th>
+							<th width="14%">创立时间</th>
+							<th width="20%">创建人</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="tbodyarea"><tr><td>1</td><td>24</td><td>预约员 2</td><td>18912881507</td><td><a href="javascript:;" class="look look-show" onclick="seeDetails(24)">查看</a></td><td>2019-10-23 00:02:54</td><td>3</td><td style="display:-webkit-box;line-height: 39px;"><a href="javascript:;" onclick="auditTap(&quot;24&quot;,&quot;2&quot;)" class="audit">已审核</a><a href="javascript:;" class="arrange" onclick="arrangeTap(&quot;24&quot;,&quot;0&quot;)">安排</a><a href="javascript:;" class="cancel" onclick="leaveTap(&quot;24&quot;,&quot;0&quot;)">取消</a></td></tr><tr><td>2</td><td>23</td><td>小米</td><td>18912881503</td><td><a href="javascript:;" class="look look-show" onclick="seeDetails(23)">查看</a></td><td>2019-10-21 15:56:07</td><td>4</td><td style="display:-webkit-box;line-height: 39px;"><a href="javascript:;" onclick="auditTap(&quot;23&quot;,&quot;1&quot;)" class="audit">已审核</a><a href="javascript:;" class="arrange" onclick="arrangeTap(&quot;23&quot;,&quot;0&quot;)">安排</a><a href="javascript:;" class="cancel" onclick="leaveTap(&quot;23&quot;,&quot;1&quot;)">已取消</a></td></tr><tr><td>3</td><td>17</td><td>小米</td><td>18912881503</td><td><a href="javascript:;" class="look look-show" onclick="seeDetails(17)">查看</a></td><td>2019-10-21 15:49:08</td><td>4</td><td style="display:-webkit-box;line-height: 39px;"><a href="javascript:;" onclick="auditTap(&quot;17&quot;,&quot;0&quot;)" class="audit">审核</a><a href="javascript:;" class="arrange" onclick="arrangeTap(&quot;17&quot;,&quot;0&quot;)">安排</a><a href="javascript:;" class="cancel" onclick="leaveTap(&quot;17&quot;,&quot;0&quot;)">取消</a></td></tr><tr><td>4</td><td>18</td><td>小米</td><td>18912881503</td><td><a href="javascript:;" class="look look-show" onclick="seeDetails(18)">查看</a></td><td>2019-10-21 15:49:08</td><td>4</td><td style="display:-webkit-box;line-height: 39px;"><a href="javascript:;" onclick="auditTap(&quot;18&quot;,&quot;0&quot;)" class="audit">审核</a><a href="javascript:;" class="arrange" onclick="arrangeTap(&quot;18&quot;,&quot;0&quot;)">安排</a><a href="javascript:;" class="cancel" onclick="leaveTap(&quot;18&quot;,&quot;0&quot;)">取消</a></td></tr><tr><td>5</td><td>19</td><td>小米</td><td>18912881503</td><td><a href="javascript:;" class="look look-show" onclick="seeDetails(19)">查看</a></td><td>2019-10-21 15:49:08</td><td>4</td><td style="display:-webkit-box;line-height: 39px;"><a href="javascript:;" onclick="auditTap(&quot;19&quot;,&quot;0&quot;)" class="audit">审核</a><a href="javascript:;" class="arrange" onclick="arrangeTap(&quot;19&quot;,&quot;0&quot;)">安排</a><a href="javascript:;" class="cancel" onclick="leaveTap(&quot;19&quot;,&quot;0&quot;)">取消</a></td></tr></tbody>
+				</table>
+			</body></html>
+--NEXT.ITEM-BOUNDARY--
