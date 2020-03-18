@@ -142,6 +142,7 @@ export default {
           const response = await GroupMall.groupOrderDelivery(data);
           window.console.log(response.data);
           if (response.data.err_code == 0) {
+            this.shipping_no = "";
             Dialog.alert({
               title: "提示",
               message: "已发货"

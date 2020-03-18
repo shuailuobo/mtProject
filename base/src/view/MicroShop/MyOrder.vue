@@ -769,7 +769,6 @@ export default {
       }
     },
     async viewLogisticsTap(no) {
-      this.show = true;
       let data = {
         no: no
       };
@@ -778,6 +777,7 @@ export default {
         window.console.log(response.data);
         if (response.data.err_code == 0) {
           this.expressLists = response.data.data;
+          this.show = true;
         }
       } catch (error) {
         window.console.log(error.response);
