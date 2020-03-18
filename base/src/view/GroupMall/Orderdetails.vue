@@ -113,6 +113,7 @@
             :hairline="true"
             class="mybtn"
             v-if="isConfirm"
+            @click="confirmTap()"
             >确认收货</van-button
           >
           <van-button
@@ -131,9 +132,13 @@
 </template>
 <script>
 import GroupMall from "../../config/GroupMall";
+import { Toast, Dialog } from "vant";
 
 export default {
-  components: {},
+  components: {
+    [Toast.name]: Toast,
+    [Dialog.Component.name]: Dialog.Component
+  },
   data() {
     return {
       title: "订单详情",
@@ -155,8 +160,8 @@ export default {
       name: "",
       goodsprice: "",
       point: "",
-      isRefund: true,
-      isConfirm: true
+      isRefund: false,
+      isConfirm: false
     };
   },
   methods: {
@@ -174,53 +179,73 @@ export default {
           phone: this.phone
         }
       });
+    },
+    async confirmTap() {
+      let data = {
+        id: this.$route.query.id
+      };
+      try {
+        const response = await GroupMall.groupOrderFinishe(data);
+        window.console.log(response.data);
+        if (response.data.err_code == 0) {
+          this.myGroupOrderDetail();
+          Dialog.alert({
+            message: "已确认收货"
+          }).then(() => {
+            // on close
+          });
+        }
+      } catch (error) {
+        window.console.log(error.response);
+      }
+    },
+    async myGroupOrderDetail() {
+      let data = {
+        id: this.$route.query.id
+      };
+      try {
+        const response = await GroupMall.groupOrderDetail(data);
+        window.console.log(response.data);
+        if (response.data.err_code == 0) {
+          if (
+            response.data.data.status == "1" ||
+            response.data.data.status == "2"
+          ) {
+            this.isRefund = true;
+          } else {
+            this.isRefund = false;
+          }
+
+          if (response.data.data.status == "1") {
+            this.isConfirm = true;
+          } else {
+            this.isConfirm = false;
+          }
+          this.address = response.data.data.address;
+          this.city = response.data.data.city;
+          this.contact = response.data.data.contact;
+          this.create_time = response.data.data.create_time;
+          this.district = response.data.data.district;
+          this.goods_id = response.data.data.goods_id;
+          this.money = response.data.data.money;
+          this.number = response.data.data.number;
+          this.out_trade_no = response.data.data.out_trade_no;
+          this.phone = response.data.data.phone;
+          this.province = response.data.data.province;
+          this.shipping_fee = response.data.data.shipping_fee;
+          this.status = response.data.data.status;
+          this.goods_spec = response.data.data.goods_spec;
+          this.point = response.data.data.point;
+          this.thumb = response.data.data.thumb;
+          this.name = response.data.data.goods_name;
+          this.goodsprice = response.data.data.money;
+        }
+      } catch (error) {
+        window.console.log(error.response);
+      }
     }
   },
-  async created() {
-    let data = {
-      id: this.$route.query.id
-    };
-    try {
-      const response = await GroupMall.groupOrderDetail(data);
-      window.console.log(response.data);
-      if (response.data.err_code == 0) {
-        if (
-          response.data.data.status == "1" ||
-          response.data.data.status == "2"
-        ) {
-          this.isRefund = true;
-        } else {
-          this.isRefund = false;
-        }
-
-        if (response.data.data.status == "1") {
-          this.isConfirm = true;
-        } else {
-          this.isConfirm = false;
-        }
-        this.address = response.data.data.address;
-        this.city = response.data.data.city;
-        this.contact = response.data.data.contact;
-        this.create_time = response.data.data.create_time;
-        this.district = response.data.data.district;
-        this.goods_id = response.data.data.goods_id;
-        this.money = response.data.data.money;
-        this.number = response.data.data.number;
-        this.out_trade_no = response.data.data.out_trade_no;
-        this.phone = response.data.data.phone;
-        this.province = response.data.data.province;
-        this.shipping_fee = response.data.data.shipping_fee;
-        this.status = response.data.data.status;
-        this.goods_spec = response.data.data.goods_spec;
-        this.point = response.data.data.point;
-        this.thumb = response.data.data.thumb;
-        this.name = response.data.data.goods_name;
-        this.goodsprice = response.data.data.money;
-      }
-    } catch (error) {
-      window.console.log(error.response);
-    }
-  }
+  async created() {}
 };
 </script>
 <style lang="less" scoped>

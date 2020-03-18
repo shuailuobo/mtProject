@@ -128,7 +128,7 @@ export default {
   },
   methods: {
     changeList(index, item) {
-      console.log(item);
+      // console.log(item);
       this.reason = item; //this指向app
     },
     async submit() {
@@ -147,14 +147,14 @@ export default {
           const response = await GroupMall.groupOrderExchange(data);
           window.console.log(response.data);
           if (response.data.err_code == 0) {
-            alert("提交成功");
+            this.$toast("提交成功");
           }
           // this.responsedetail = response.data;
         } catch (error) {
           window.console.log(error.response);
         }
       } else {
-        alert("请选择申请原因");
+        this.$toast("请选择申请原因");
       }
     }
   }

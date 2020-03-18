@@ -2,12 +2,25 @@
   <div class="container">
     <!-- <HeaderTop :title="title"></HeaderTop> -->
     <div class="orderstatus">
-      {{
+      <!-- {{
         status == "0"
           ? "未处理"
           : status == "1"
           ? "已发货"
           : status == "2"
+          ? "已完成"
+          : "已取消"
+      }} -->
+      {{
+        status == "0" && pay_status == "0"
+          ? "未支付"
+          : status == "0" && pay_status == "1"
+          ? "待处理"
+          : status == "1"
+          ? "已发货"
+          : status == "2"
+          ? "已收货"
+          : status == "3"
           ? "已完成"
           : "已取消"
       }}
@@ -101,6 +114,7 @@ export default {
       title: "订单详情",
       create_time: "",
       status: "",
+      pay_status: "",
       order_price: "",
       total_price: "",
       shipping_fee: "",
@@ -128,6 +142,7 @@ export default {
       window.console.log(response.data);
       this.create_time = response.data.data.create_time;
       this.status = response.data.data.status;
+      this.pay_status = response.data.data.pay_status;
       this.order_price = response.data.data.order_price;
       this.total_price = response.data.data.total_price;
       this.shipping_fee = response.data.data.shipping_fee;

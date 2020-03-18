@@ -435,12 +435,27 @@
                         <p>订单号：{{ item.out_trade_no }}</p>
                         <p>
                           <!-- 0未处理 1已发货 2已完成 3已取消 -->
-                          当前状态：<span>{{
+                          当前状态：
+                          <!-- <span>{{
                             item.status == 0
                               ? "未处理"
                               : item.status == 1
                               ? "已发货"
                               : item.status == 2
+                              ? "已完成"
+                              : "已取消"
+                          }}</span> -->
+
+                          <span>{{
+                            item.status == "0" && item.pay_status == "0"
+                              ? "未支付"
+                              : item.status == "0" && item.pay_status == "1"
+                              ? "待处理"
+                              : item.status == "1"
+                              ? "已发货"
+                              : item.status == "2"
+                              ? "已收货"
+                              : item.status == "3"
                               ? "已完成"
                               : "已取消"
                           }}</span>
@@ -982,8 +997,8 @@ export default {
       li {
         display: flex;
         font-size: 0.13rem;
-        line-height: 0.18rem;
-        height: 0.45rem;
+        line-height: 0.2rem;
+        // height: 0.45rem;
         div {
           word-wrap: word-break;
           word-break: normal;
