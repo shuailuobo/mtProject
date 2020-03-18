@@ -38,24 +38,6 @@
     </section>
     <!-- 商品圖開始 -->
     <section>
-      <!-- <div class="baokuan_main">
-        <div class='baokuan_mainBox'>
-          <div class="baokuan_main_left">
-            <img
-              :src='thumb'
-              alt=""
-            >
-          </div>
-
-          <div class="baokuan_main_right">
-            <h3>{{name}}</h3>
-            <div class="baokuanzigoujiage">{{description}}</div>
-            <h4>规格 :<i>{{goods_spec}}</i></h4>
-            <div class="baokuanjiage"><span>￥{{goodsprice}}</span><i>x{{number}}</i></div>
-          </div>
-        </div>
-      </div> -->
-
       <van-card
         :num="number"
         :price="(goodsprice / number).toFixed(2)"
@@ -161,7 +143,8 @@ export default {
       goodsprice: "",
       point: "",
       isRefund: false,
-      isConfirm: false
+      isConfirm: false,
+      order_list: []
     };
   },
   methods: {
@@ -221,13 +204,15 @@ export default {
           } else {
             this.isConfirm = false;
           }
+          this.order_list = response.data.data.order_list;
+
           this.address = response.data.data.address;
           this.city = response.data.data.city;
           this.contact = response.data.data.contact;
           this.create_time = response.data.data.create_time;
           this.district = response.data.data.district;
           this.goods_id = response.data.data.goods_id;
-          this.money = response.data.data.money;
+          this.money = response.data.data.total_price;
           this.number = response.data.data.number;
           this.out_trade_no = response.data.data.out_trade_no;
           this.phone = response.data.data.phone;
@@ -238,7 +223,7 @@ export default {
           this.point = response.data.data.point;
           this.thumb = response.data.data.thumb;
           this.name = response.data.data.goods_name;
-          this.goodsprice = response.data.data.money;
+          this.goodsprice = response.data.data.total_price;
         }
       } catch (error) {
         window.console.log(error.response);

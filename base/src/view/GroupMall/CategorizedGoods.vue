@@ -29,7 +29,7 @@
                 ><i>原价￥{{ categoryList.market_price }}</i>
               </div>
               <div class="baokuanzigoujiage">
-                自购预估提成<span>￥{{ categoryList.user_profit }}</span>
+                自购预估积分<span>{{ categoryList.user_profit }}</span>
               </div>
               <h4>
                 <span

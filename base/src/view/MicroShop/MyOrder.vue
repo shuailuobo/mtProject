@@ -220,15 +220,15 @@
                     <div class="feedetail">
                       <div>
                         <p>付款金额</p>
-                        <p>￥{{ item.money }}</p>
+                        <p>￥{{ item.order_price }}</p>
                       </div>
                       <!-- <div>
                         <p>领券</p>
                         <p>￥{{ item.coupon_amount }}</p>
                       </div> -->
                       <div>
-                        <p>预估补贴</p>
-                        <p>￥{{ item.profit }}</p>
+                        <p>积分补贴</p>
+                        <p>{{ item.profit }}</p>
                       </div>
                     </div>
                     <div class="addtime">
@@ -369,8 +369,8 @@
                         <p>￥{{ item.coupon_amount }}</p>
                       </div> -->
                       <div>
-                        <p>预估补贴</p>
-                        <p>￥{{ item.profit }}</p>
+                        <p>积分补贴</p>
+                        <p>{{ item.profit }}</p>
                       </div>
                     </div>
                     <div class="addtime">
@@ -489,8 +489,8 @@
                       <p>￥{{ item.coupon_id }}</p>
                     </div> -->
                     <div>
-                      <p>预估补贴</p>
-                      <p>￥{{ item.shipping_fee }}</p>
+                      <p>积分补贴</p>
+                      <p>{{ item.total_profit }}</p>
                     </div>
                   </div>
                   <div class="addtime">

@@ -149,7 +149,7 @@
                 <i>原价￥{{ ysGood.market_price }}</i>
               </div>
               <div class="zigoujiage">
-                自购预估提成<span>￥{{ ysGood.user_profit }}</span>
+                自购预估积分<span>{{ ysGood.user_profit }}</span>
               </div>
               <h4>
                 <span
@@ -200,7 +200,7 @@
               </div>
               <!-- <div class="baokuanzigoujiage">已拼{{ bkGood.buy_times }}</div> -->
               <div class="baokuanzigoujiage">
-                自购预估提成<span>￥{{ bkGood.user_profit }}</span>
+                自购预估积分<span>{{ bkGood.user_profit }}</span>
               </div>
               <h4>
                 <span
@@ -245,7 +245,7 @@
               </div>
               <!-- <div class="baokuanzigoujiage">已拼{{ remGood.buy_times }}</div> -->
               <div class="baokuanzigoujiage">
-                自购预估提成<span>￥{{ remGood.user_profit }}</span>
+                自购预估积分<span>{{ remGood.user_profit }}</span>
               </div>
               <h4>
                 <span
