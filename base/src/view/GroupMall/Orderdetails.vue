@@ -245,7 +245,10 @@ export default {
       }
     }
   },
-  async created() {}
+  async created() {},
+  mounted() {
+    this.myGroupOrderDetail();
+  }
 };
 </script>
 <style lang="less" scoped>

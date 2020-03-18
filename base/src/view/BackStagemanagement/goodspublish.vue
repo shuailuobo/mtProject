@@ -19,6 +19,13 @@
         placeholder="请输入"
       />
       <van-field
+        v-model="profit"
+        type="number"
+        label="可分配利润"
+        placeholder="请输入"
+      />
+
+      <van-field
         readonly
         clickable
         label="商品分类"
@@ -76,7 +83,8 @@ export default {
       CoverImage: require("../../assets/adds.png"),
       cat_id: "",
       spec: "",
-      store_id: this.$route.query.store_id
+      store_id: this.$route.query.store_id,
+      profit: ""
     };
   },
   methods: {
@@ -89,7 +97,7 @@ export default {
         store_id: this.store_id,
         for_sale: this.for_sale,
         thumb: this.thumb,
-        // for_sale: this.for_sale,
+        profit: this.profit,
         market_price: this.market_price,
         price: this.price
       };

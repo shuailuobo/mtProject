@@ -80,12 +80,12 @@
             </div>
 
             <div class="goodsnums">
-              <p>月售：{{ item.sale_amount }}</p>
+              <p>销量：{{ item.sale_amount }}</p>
             </div>
           </div>
           <div>
             <div class="classname">
-              <span>{{ item.cat_name }}</span>
+              <span>{{ item.name }}</span>
             </div>
 
             <div class="goodsprice">
@@ -264,7 +264,7 @@ export default {
       ],
       fold: true,
       cartClassify: [],
-      curId:''
+      curId: ""
     };
   },
   methods: {
@@ -281,7 +281,7 @@ export default {
         const response = await MicroShop.cartEmpty(data);
         window.console.log(response.data);
         if (response.data.err_code == 0) {
-          this.getStoreGoodsList(this.curId );
+          this.getStoreGoodsList(this.curId);
           this.getCartLists();
         }
       } catch (error) {
@@ -296,7 +296,7 @@ export default {
         const response = await MicroShop.cartDelete(data);
         window.console.log(response.data);
         if (response.data.err_code == 0) {
-          this.getStoreGoodsList(this.curId );
+          this.getStoreGoodsList(this.curId);
           this.getCartLists();
         }
       } catch (error) {

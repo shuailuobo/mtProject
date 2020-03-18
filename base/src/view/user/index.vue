@@ -29,7 +29,7 @@
                       : agent_level == "3"
                       ? "中级代理"
                       : agent_level == "4"
-                      ? "中级代理"
+                      ? "高级代理"
                       : "普通会员"
                   }}</span>
                   <span v-else>普通会员</span>
@@ -157,7 +157,7 @@
                       : agent_level == "3"
                       ? "中级代理"
                       : agent_level == "4"
-                      ? "中级代理"
+                      ? "高级代理"
                       : "普通会员"
                   }}</span>
                   <span v-else>普通会员</span>
@@ -411,6 +411,36 @@ export default {
       } catch (error) {
         window.console.log(error.response);
       }
+    },
+    async myUserProfit() {
+      try {
+        let data = {
+          user_id: this.$cookies.get("userid")
+        };
+        const response = await GroupMall.getHomeGroup(data); //订单状态查看：0未处理 1已发货 2已完成 3已取消
+        //团购状态 0进行中 1结束 2失败
+        window.console.log(response.data);
+        // if (response.data.data.length > 0) {
+        //   this.getMicroShopOrder();
+        // }
+      } catch (error) {
+        window.console.log(error.response);
+      }
+    },
+    async myTeamProfit() {
+      try {
+        let data = {
+          user_id: this.$cookies.get("userid")
+        };
+        const response = await GroupMall.getHomeStore(data); //订单状态查看：0未处理 1已发货 2已完成 3已取消
+        //团购状态 0进行中 1结束 2失败
+        window.console.log(response.data);
+        // if (response.data.data.length > 0) {
+        //   this.getMicroShopOrder();
+        // }
+      } catch (error) {
+        window.console.log(error.response);
+      }
     }
   },
   async created() {
@@ -430,6 +460,8 @@ export default {
   },
   mounted() {
     this.myUserInfo();
+    this.myUserProfit();
+    this.myTeamProfit();
   }
 };
 </script>
@@ -495,7 +527,7 @@ export default {
   div:nth-child(2) p:nth-child(1) {
     font-size: 0.16rem;
     font-weight: 600;
-    width: 2rem;
+    width: 1.85rem;
     line-height: 0.3rem;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -518,13 +550,13 @@ export default {
   }
   div:nth-child(3) button {
     margin-top: 0.1rem;
-    width: 0.8rem;
+    width: 0.9rem;
     height: 0.3rem;
     background: transparent;
     border: 1px solid #fff;
     border-radius: 0.04rem;
     color: #fff;
-    font-size: 0.13rem;
+    font-size: 0.12rem;
   }
 }
 

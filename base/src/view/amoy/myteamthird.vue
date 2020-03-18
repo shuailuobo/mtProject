@@ -24,7 +24,7 @@
           <div style="width:100%;">
             <p>
               {{ item.nickname ? item.nickname : "默认用户" }}
-              <span
+              <!-- <span
                 :class="[
                   item.agent == 0
                     ? 'color1'
@@ -51,7 +51,37 @@
                     ? "高级代理"
                     : "合伙人"
                 }}</span
+              > -->
+
+              <span class="color6" v-if="item.is_partner == '1'">合伙人</span>
+              <span
+                :class="[
+                  item.agent_level == 0
+                    ? 'color1'
+                    : item.agent_level == 1
+                    ? 'color2'
+                    : item.agent_level == 2
+                    ? 'color3'
+                    : item.agent_level == 3
+                    ? 'color4'
+                    : item.agent_level == 4
+                    ? 'color5'
+                    : 'color6'
+                ]"
+                v-else-if="item.is_agent == '1'"
+                >{{
+                  item.agent_level == "1"
+                    ? "试用期代理"
+                    : item.agent_level == "2"
+                    ? "初级代理"
+                    : item.agent_level == "3"
+                    ? "中级代理"
+                    : item.agent_level == "4"
+                    ? "高级代理"
+                    : "普通会员"
+                }}</span
               >
+              <span class="color1" v-else>普通会员</span>
             </p>
             <p>{{ item.phone }}</p>
             <div class="invdetails">

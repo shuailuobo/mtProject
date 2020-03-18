@@ -169,7 +169,7 @@
           ></el-input>
           <el-input
             v-model="item.profit"
-            placeholder="请输入商品利润"
+            placeholder="请输入可分配利润"
           ></el-input>
           <el-input v-model="item.stock" placeholder="请输入库存"></el-input>
         </div>
@@ -199,7 +199,7 @@
                   <el-input size="mini" v-model="scope.row['price']"></el-input>
                 </template>
               </el-table-column>
-              <el-table-column prop="no" label="商品利润">
+              <el-table-column prop="no" label="可分配利润">
                 <template slot-scope="scope">
                   <el-input
                     size="mini"

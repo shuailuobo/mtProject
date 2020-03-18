@@ -112,4 +112,10 @@ export default {
   getSms(data) { //获取验证码
     return request.post('/api/sms', data)
   },
+  getHomeGroup(data) { //获取积分
+    return request.post('/home/group', data)
+  },
+  getHomeStore(data) { //获取积分
+    return request.post('/home/store', data)
+  },
 }
