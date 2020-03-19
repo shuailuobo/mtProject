@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     looklist() {
-      this.$router.push({ name: "MyOrder" });
+      this.$router.replace({ name: "MyOrder" });
     }
   }
 };

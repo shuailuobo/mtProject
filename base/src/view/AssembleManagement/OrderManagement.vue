@@ -31,7 +31,7 @@
                 item.group_status == "0"
                   ? "进行中"
                   : item.group_status == "1"
-                  ? "已结束"
+                  ? "已完成"
                   : "已失败"
               }}</span>
             </p>
@@ -45,22 +45,22 @@
         </div>
         <div>
           <p>
-            ￥<span>{{ item.money }}</span>
+            ￥<span>{{ item.order_price }}</span>
           </p>
         </div>
       </div>
       <div class="feedetail">
         <div>
           <p>付款金额</p>
-          <p>￥{{ item.money }}</p>
+          <p>￥{{ item.total_price }}</p>
         </div>
         <!-- <div>
           <p>领券</p>
           <p>￥{{ item.coupon_id }}</p>
         </div> -->
         <div>
-          <p>预估补贴</p>
-          <p>￥{{ item.profit }}</p>
+          <p>预估积分补贴</p>
+          <p>{{ item.profit }}</p>
         </div>
       </div>
       <div class="addtime">

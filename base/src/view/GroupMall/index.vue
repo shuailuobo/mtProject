@@ -101,7 +101,9 @@
           indicator-color="transparent"
         >
           <van-swipe-item v-for="(message, index) in messages" :key="index">
-            <span>{{ message.title }}</span>
+            <span style="font-size:0.14rem;color:#666;">{{
+              message.title
+            }}</span>
           </van-swipe-item>
         </van-swipe>
       </div>
@@ -130,7 +132,44 @@
           v-for="(ysGood, index) in ysGoods"
           :key="index"
         >
-          <div
+          <van-card
+            @click="
+              $router.push({
+                name: 'CommodityDetails',
+                params: { id: ysGood.id }
+              })
+            "
+            :price="ysGood.price"
+            :origin-price="ysGood.market_price"
+            :title="ysGood.name"
+            :thumb="ysGood.thumb"
+          >
+            <div slot="price-top">
+              <div>
+                自购预估积分<span style="color:red;">{{
+                  ysGood.user_profit
+                }}</span>
+              </div>
+              <div style="display:flex;justify-content: space-between;">
+                <p>
+                  代理购预估提成<i style="color:red;font-style: normal;"
+                    >￥{{ ysGood.agent_profit }}</i
+                  >
+                </p>
+                <p>已拼{{ ysGood.buy_times }}</p>
+              </div>
+            </div>
+            <div slot="bottom" style="display:flex;">
+              <p>距离活动结束：</p>
+              <van-count-down
+                style="font-size:0.13rem;"
+                format="DD天HH:mm:ss"
+                :time="ysGood.expire_time"
+              />
+            </div>
+          </van-card>
+
+          <!-- <div
             class="rexiao_mainBox"
             @click="
               $router.push({
@@ -162,14 +201,15 @@
           <div class="rexiao_flooter">
             <h3>距离活动结束</h3>
             <van-count-down format="DD天HH:mm:ss" :time="ysGood.expire_time" />
-            <!-- <div>{{ysGood.period_hour}}</div> -->
-            <!-- <div><span>24</span><i>:</i><span>54</span><i>:</i><span>36</span></div> -->
-          </div>
+
+          </div> -->
         </div>
       </div>
     </section>
     <!-- 爆款开始 bkGoods -->
     <section>
+      <groupMallCard></groupMallCard>
+
       <div class="baokuan">
         <header class="baokuan_header">
           <div></div>
@@ -264,14 +304,17 @@
 <script>
 import GroupMall from "../../config/GroupMall";
 import publish from "../../config/publish";
+import groupMallCard from "../../components/groupMallCard";
 export default {
   name: "GroupMall",
-  components: {},
+  components: {
+    groupMallCard: groupMallCard
+  },
   data() {
     return {
       categorys: {},
       banners: {},
-      messages: {},
+      messages: [],
       bkGoods: {},
       ysGoods: {},
       djsgoods: {},
@@ -316,7 +359,7 @@ export default {
     try {
       const response = await GroupMall.getGroupMallMessage();
       window.console.log(response.data);
-      this.messages = response.data.data;
+      this.messages = response.data.data.reverse();
     } catch (error) {
       window.console.log(error.response);
     }
@@ -455,6 +498,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.van-card__price {
+  color: red;
+  font-size: 0.14rem;
+  font-weight: 600;
+}
+
+.van-card__title {
+  color: #333;
+  font-size: 0.13rem;
+  font-weight: 600;
+}
+
 .shouye {
   background-color: #fff;
 }
@@ -605,9 +660,9 @@ export default {
   }
   .rexiao_main {
     // height: 1.7rem;
-    padding: 0.1rem 0;
+    padding: 0.05rem 0;
     position: relative;
-    border-bottom: 1px solid #eee;
+    // border-bottom: 1px solid #eee;
     // @include bottom-border-1px(#eee);
     .rexiao_mainBox {
       height: 1.2rem;

@@ -336,7 +336,7 @@ export default {
   },
   async created() {
     this.news();
-    publish.firstRes(this);
+    // publish.firstRes(this);
   }
 };
 </script>

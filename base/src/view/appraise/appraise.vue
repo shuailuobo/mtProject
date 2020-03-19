@@ -25,13 +25,7 @@
     <!-- <div>{{images}}</div> -->
     <div class="appraisetap">
       <p>商品评分</p>
-      <van-rate
-        v-model="value"
-        allow-half
-        void-icon="star"
-        touchable
-        void-color="#eee"
-      />
+      <van-rate v-model="value" void-icon="star" touchable void-color="#eee" />
       <span>{{ value }}分</span>
     </div>
     <div style="margin-top:0.15rem;">

@@ -52,30 +52,31 @@
       <ul class="discounts">
         <li>
           <p>我的积分：{{ point }}</p>
-          <p>使用我的账户积分</p>
-          <p>
-            抵扣<span>{{ point }}</span
-            >元
-          </p>
+          <p>使用我的账户积分抵扣</p>
+          <!-- <p>
+            <span>{{ point }}</span>
+          </p> -->
           <p>
             <van-switch
               size="14px"
               v-model="jfchecked"
+              @change="jfTap"
               active-color="#4CD864"
             />
           </p>
         </li>
         <li>
           <p>我的账户：{{ money }}元</p>
-          <p>使用我的账户余额</p>
-          <p>
-            抵扣<span>{{ money }}</span
+          <p>使用我的账户余额抵扣</p>
+          <!-- <p>
+            <span>{{ money }}</span
             >元
-          </p>
+          </p> -->
           <p>
             <van-switch
               size="14px"
               v-model="zhchecked"
+              @change="zhTap"
               active-color="#4CD864"
             />
           </p>
@@ -97,7 +98,7 @@
 
     <div>
       <van-submit-bar
-        :price="price * buy_times"
+        :price="payPrice"
         button-text="去支付"
         @submit="onSubmit"
       />
@@ -105,13 +106,14 @@
   </div>
 </template>
 <script>
-import HeaderTop from "@/components/HeaderTop/index";
+// import HeaderTop from "@/components/HeaderTop/index";
 import GroupMall from "../../config/GroupMall";
+import { Dialog } from "vant";
 import wx from "weixin-jsapi";
 export default {
   components: {
-    HeaderTop
-    // [Button.name]: Button
+    // HeaderTop
+    [Dialog.Component.name]: Dialog.Component
   },
   data() {
     return {
@@ -119,8 +121,9 @@ export default {
       jfchecked: false,
       zhchecked: false,
       dlchecked: false,
-      price: Math.round(this.$route.query.price * 100),
-      buy_times: "",
+      // price: Math.round(this.$route.query.price * 100),
+      price: this.$route.query.price,
+      buy_times: 1,
       goodsprice: "",
       spec: "",
       name: "",
@@ -132,8 +135,15 @@ export default {
       addressDetail: "",
       addressId: "",
       point: "",
-      money: ""
+      money: "",
+      choosepoint: 0,
+      choosemoney: 0
     };
+  },
+  computed: {
+    payPrice() {
+      return parseInt(Number(this.price * this.buy_times) * 100);
+    }
   },
   async created() {
     this.buy_times = this.$route.query.number;
@@ -171,6 +181,20 @@ export default {
     }
   },
   methods: {
+    jfTap(value) {
+      if (value) {
+        this.choosepoint = this.point;
+      } else {
+        this.choosepoint = 0;
+      }
+    },
+    zhTap(value) {
+      if (value) {
+        this.choosemoney = Number(this.money);
+      } else {
+        this.choosemoney = 0;
+      }
+    },
     async onSubmit() {
       try {
         let data;
@@ -182,9 +206,9 @@ export default {
             price_id: this.$route.query.price_id,
             is_alone: this.$route.query.is_alone,
             number: this.buy_times,
-            address_id: this.addressId,
-            point: this.point,
-            money: this.money
+            address_id: this.addressId
+            // point: this.point,
+            // money: this.money
           };
         } else {
           if (
@@ -199,8 +223,8 @@ export default {
               is_alone: this.$route.query.is_alone,
               number: this.buy_times,
               address_id: this.addressId,
-              point: this.point,
-              money: this.money,
+              // point: this.point,
+              // money: this.money,
               initiator_id: this.$route.query.initiator_id,
               is_initiator: 0
             };
@@ -213,8 +237,8 @@ export default {
               is_alone: this.$route.query.is_alone,
               number: this.buy_times,
               address_id: this.addressId,
-              point: this.point,
-              money: this.money,
+              // point: this.point,
+              // money: this.money,
               is_initiator: 1
             };
           }
@@ -239,24 +263,36 @@ export default {
         let data = {
           user_id: this.$cookies.get("userid"),
           out_trade_no: out_trade_no,
-          point: this.point
+          point: this.choosepoint,
+          money: this.choosemoney
         };
 
         const response = await GroupMall.pay(data);
         window.console.log(response.data);
         // this.$router.push({ name: "PaySucceed" });
         if (response.data.err_code == 0) {
-          wx.chooseWXPay({
-            appId: response.data.data.appid, //公众号名称，由商户传入
-            timestamp: response.data.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-            nonceStr: response.data.data.nonceStr, // 支付签名随机串，不长于 32 位
-            package: "prepay_id=" + response.data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-            signType: response.data.data.sign, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-            paySign: response.data.data.paySign, // 支付签名
-            success: function(res) {
-              that.$router.push({ name: "PaySucceed" });
-            }
-          });
+          window.console.log(response.data.data.length);
+          if (response.data.data.length == 0) {
+            Dialog.alert({
+              title: "提示",
+              message: "账户抵扣成功"
+            }).then(() => {
+              that.$router.replace({ name: "PaySucceed" });
+            });
+          } else {
+            wx.chooseWXPay({
+              appId: response.data.data.appid, //公众号名称，由商户传入
+              timestamp: response.data.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+              nonceStr: response.data.data.nonceStr, // 支付签名随机串，不长于 32 位
+              package: "prepay_id=" + response.data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+              signType: response.data.data.sign, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+              paySign: response.data.data.paySign, // 支付签名
+              success: function(res) {
+                window.console.log(res);
+                that.$router.replace({ name: "PaySucceed" });
+              }
+            });
+          }
           // this.$router.push({ name: "ShopDetail", params: { id: id } });
         }
       } catch (error) {

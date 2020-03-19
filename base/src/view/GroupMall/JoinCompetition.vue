@@ -138,7 +138,7 @@ export default {
           this.initiator_id = response.data.data.initiator_id;
           this.buy_times = this.$route.query.buy_times;
           this.goodsprice = (
-            response.data.data.money / response.data.data.number
+            response.data.data.total_price / response.data.data.number
           ).toFixed(2);
           this.name = response.data.data.goods_name;
           this.thumb = response.data.data.thumb;

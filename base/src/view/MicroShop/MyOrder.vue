@@ -201,7 +201,7 @@
                               item.group_status == "0"
                                 ? "进行中"
                                 : item.group_status == "1"
-                                ? "已结束"
+                                ? "已完成"
                                 : "已失败"
                             }}</span>
                           </p>
@@ -222,10 +222,10 @@
                         <p>付款金额</p>
                         <p>￥{{ item.order_price }}</p>
                       </div>
-                      <!-- <div>
-                        <p>领券</p>
-                        <p>￥{{ item.coupon_amount }}</p>
-                      </div> -->
+                      <div v-if="item.is_initiator == '1'">
+                        <p>现金返利</p>
+                        <p>￥{{ item.initiator_profit }}</p>
+                      </div>
                       <div>
                         <p>积分补贴</p>
                         <p>{{ item.profit }}</p>
@@ -343,7 +343,7 @@
                               item.group_status == "0"
                                 ? "进行中"
                                 : item.group_status == "1"
-                                ? "已结束"
+                                ? "已完成"
                                 : "已失败"
                             }}</span>
                           </p>
@@ -360,17 +360,19 @@
                       </div>
                     </div> -->
                     <div class="feedetail">
-                      <div>
-                        <p>付款金额</p>
-                        <p>￥{{ item.money }}</p>
-                      </div>
-                      <!-- <div>
-                        <p>领券</p>
-                        <p>￥{{ item.coupon_amount }}</p>
-                      </div> -->
-                      <div>
-                        <p>积分补贴</p>
-                        <p>{{ item.profit }}</p>
+                      <div class="feedetail">
+                        <div>
+                          <p>付款金额</p>
+                          <p>￥{{ item.order_price }}</p>
+                        </div>
+                        <div v-if="item.is_initiator == '1'">
+                          <p>现金返利</p>
+                          <p>￥{{ item.initiator_profit }}</p>
+                        </div>
+                        <div>
+                          <p>积分补贴</p>
+                          <p>{{ item.profit }}</p>
+                        </div>
                       </div>
                     </div>
                     <div class="addtime">

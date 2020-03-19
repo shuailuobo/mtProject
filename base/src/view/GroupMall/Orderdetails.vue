@@ -40,7 +40,7 @@
     <section>
       <van-card
         :num="number"
-        :price="(goodsprice / number).toFixed(2)"
+        :price="(total_price / number).toFixed(2)"
         :desc="'规格：' + goods_spec"
         :title="name"
         :thumb="thumb"
@@ -65,16 +65,16 @@
         <ul>
           <li>
             <p>商品</p>
-            <span>¥{{ goodsprice }}</span>
+            <span>¥{{ total_price }}</span>
           </li>
           <li>
-            <p>账户抵扣</p>
-            <span>{{ point }}积分</span>
+            <p>账户积分抵扣</p>
+            <span>-{{ point }}</span>
           </li>
-          <!-- <li>
-            <p>优惠信息</p>
-            <span>-¥{{ coupon_amount }}</span>
-          </li> -->
+          <li>
+            <p>账户余额抵扣</p>
+            <span>-¥{{ money }}</span>
+          </li>
           <li>
             <p>运费信息</p>
             <span>¥{{ shipping_fee }}</span>
@@ -82,7 +82,7 @@
         </ul>
         <h3>
           <p>实付金额</p>
-          <span>￥{{ money }}</span>
+          <span>￥{{ order_price }}</span>
         </h3>
       </div>
     </section>
@@ -140,11 +140,13 @@ export default {
       thumb: "",
       description: "",
       name: "",
-      goodsprice: "",
+      // goodsprice: "",
       point: "",
       isRefund: false,
       isConfirm: false,
-      order_list: []
+      order_list: [],
+      total_price: "",
+      order_price: ""
     };
   },
   methods: {
@@ -156,7 +158,7 @@ export default {
           name: this.name,
           thumb: this.thumb,
           number: this.number,
-          money: this.money,
+          money: (this.total_price / this.number).toFixed(2),
           out_trade_no: this.out_trade_no,
           contact: this.contact,
           phone: this.phone
@@ -191,7 +193,7 @@ export default {
         window.console.log(response.data);
         if (response.data.err_code == 0) {
           if (
-            response.data.data.status == "1" ||
+            response.data.data.pay_status == "1" &&
             response.data.data.status == "2"
           ) {
             this.isRefund = true;
@@ -212,7 +214,10 @@ export default {
           this.create_time = response.data.data.create_time;
           this.district = response.data.data.district;
           this.goods_id = response.data.data.goods_id;
-          this.money = response.data.data.total_price;
+          this.money = response.data.data.money;
+          // this.goodsprice = response.data.data.total_price;
+          this.total_price = response.data.data.total_price;
+          this.order_price = response.data.data.order_price;
           this.number = response.data.data.number;
           this.out_trade_no = response.data.data.out_trade_no;
           this.phone = response.data.data.phone;
@@ -223,7 +228,6 @@ export default {
           this.point = response.data.data.point;
           this.thumb = response.data.data.thumb;
           this.name = response.data.data.goods_name;
-          this.goodsprice = response.data.data.total_price;
         }
       } catch (error) {
         window.console.log(error.response);

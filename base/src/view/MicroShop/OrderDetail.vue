@@ -61,7 +61,7 @@
       </div>
       <div class="totalprice">
         <p>
-          合计<span>￥{{ order_price }}</span>
+          合计<span>￥{{ totalPrice }}</span>
         </p>
       </div>
     </div>

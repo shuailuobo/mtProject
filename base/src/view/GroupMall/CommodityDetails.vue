@@ -601,8 +601,8 @@ export default {
       this.teamShow = true;
     },
     onBuyClicked(data) {
-      window.console.log(data);
-      this.$router.push({
+      // window.console.log(data);
+      this.$router.replace({
         name: "fillOrder",
         query: {
           id: data.goodsId,
@@ -617,8 +617,8 @@ export default {
       });
     },
     onBuyClicked2(data) {
-      window.console.log(data);
-      this.$router.push({
+      // window.console.log(data);
+      this.$router.replace({
         name: "fillOrder",
         query: {
           id: data.goodsId,

@@ -65,28 +65,28 @@
           </div> -->
           <!-- 我的积分 -->
           <div class="wdjf">
-            <div class="wheader"><span></span>我的积分</div>
+            <div class="wheader"><span></span>我的账户</div>
             <div class="wmain">
-              <div>
+              <!-- <div>
                 <p>累计积分总额</p>
                 <p>{{ total_point }}</p>
-              </div>
+              </div> -->
               <div>
                 <p>
-                  自购结算积分<span>{{ buy_point }}</span>
+                  累计结算积分<span>{{ point }}</span>
                 </p>
                 <p>
-                  团队结算积分<span>{{ agent_point }}</span>
+                  累计结算返利<span>{{ money }}</span>
                 </p>
               </div>
-              <div>
+              <!-- <div>
                 <p>
-                  自购预估积分<span>{{ buy_frozen_point }}</span>
+                  返利<span>{{ buy_frozen_point }}</span>
                 </p>
                 <p>
                   团队预估积分<span>{{ agent_frozen_point }}</span>
                 </p>
-              </div>
+              </div> -->
             </div>
             <div class="wprice">
               <p>
@@ -284,6 +284,7 @@ export default {
       showShare: false,
       qrcode: "",
       point: "",
+      money: "",
       total_point: "",
       buy_point: "",
       buy_frozen_point: "",
@@ -396,7 +397,9 @@ export default {
           this.vip_card_number = response.data.data.vip_card_number;
           this.qrcode = response.data.data.qrcode;
           this.is_agent = response.data.data.is_agent;
-          this.point = response.data.data.point; //可兑换积分
+          this.point = response.data.data.point; //积分
+          this.money = response.data.data.money; //返利
+
           this.total_point = response.data.data.total_point; //总积分
           this.buy_point = response.data.data.buy_point; //自购积分
           this.buy_frozen_point = response.data.data.buy_frozen_point; //自购预计积分
