@@ -156,7 +156,6 @@
                 <span>￥{{ bkGood.price }}</span>
                 <i>原价￥{{ bkGood.market_price }}</i>
               </div>
-              <!-- <div class="baokuanzigoujiage">已拼{{ bkGood.buy_times }}</div> -->
               <div class="baokuanzigoujiage">
                 自购预估积分<span>{{ bkGood.user_profit }}</span>
               </div>
@@ -202,7 +201,6 @@
                 <span>￥{{ remGood.price }}</span>
                 <i>原价￥{{ remGood.market_price }}</i>
               </div>
-              <!-- <div class="baokuanzigoujiage">已拼{{ remGood.buy_times }}</div> -->
               <div class="baokuanzigoujiage">
                 自购预估积分<span>{{ remGood.user_profit }}</span>
               </div>
