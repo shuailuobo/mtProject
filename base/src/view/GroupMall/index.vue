@@ -122,100 +122,18 @@
         </template>
       </van-cell>
       <div class="rexiao">
-        <!-- <header class="rexiao_header">
-          <img src="../../assets/GroupMall/rexiao@3x.png" alt />
-          <h3>限时预售</h3>
-          <p style="float:right;">查看更多</p>
-        </header> -->
-        <div
-          class="rexiao_main"
-          v-for="(ysGood, index) in ysGoods"
-          :key="index"
-        >
-          <van-card
-            @click="
-              $router.push({
-                name: 'CommodityDetails',
-                params: { id: ysGood.id }
-              })
-            "
-            :price="ysGood.price"
-            :origin-price="ysGood.market_price"
-            :title="ysGood.name"
-            :thumb="ysGood.thumb"
-          >
-            <div slot="price-top">
-              <div>
-                自购预估积分<span style="color:red;">{{
-                  ysGood.user_profit
-                }}</span>
-              </div>
-              <div style="display:flex;justify-content: space-between;">
-                <p>
-                  代理购预估提成<i style="color:red;font-style: normal;"
-                    >￥{{ ysGood.agent_profit }}</i
-                  >
-                </p>
-                <p>已拼{{ ysGood.buy_times }}</p>
-              </div>
-            </div>
-            <div slot="bottom" style="display:flex;">
-              <p>距离活动结束：</p>
-              <van-count-down
-                style="font-size:0.13rem;"
-                format="DD天HH:mm:ss"
-                :time="ysGood.expire_time"
-              />
-            </div>
-          </van-card>
-
-          <!-- <div
-            class="rexiao_mainBox"
-            @click="
-              $router.push({
-                name: 'CommodityDetails',
-                params: { id: ysGood.id }
-              })
-            "
-          >
-            <div class="rexiao_main_left">
-              <img :src="ysGood.thumb" :alt="ysGood.name" />
-            </div>
-            <div class="rexiao_main_right">
-              <h3>{{ ysGood.name }}</h3>
-              <div class="jiage">
-                <span>￥{{ ysGood.price }}</span>
-                <i>原价￥{{ ysGood.market_price }}</i>
-              </div>
-              <div class="zigoujiage">
-                自购预估积分<span>{{ ysGood.user_profit }}</span>
-              </div>
-              <h4>
-                <span
-                  >代理购预估提成<i>￥{{ ysGood.agent_profit }}</i></span
-                >
-                <div>已拼{{ ysGood.buy_times }}</div>
-              </h4>
-            </div>
-          </div>
-          <div class="rexiao_flooter">
-            <h3>距离活动结束</h3>
-            <van-count-down format="DD天HH:mm:ss" :time="ysGood.expire_time" />
-
-          </div> -->
-        </div>
+        <groupMallCard :Good="ysGoods" />
       </div>
     </section>
     <!-- 爆款开始 bkGoods -->
     <section>
-      <groupMallCard></groupMallCard>
-
       <div class="baokuan">
         <header class="baokuan_header">
           <div></div>
           <h3>热销爆款</h3>
         </header>
-        <div
+        <groupMallCardSecond :Good="bkGoods" />
+        <!-- <div
           class="baokuan_main"
           v-for="(bkGood, index) in bkGoods"
           :key="index"
@@ -250,7 +168,7 @@
               </h4>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </section>
     <!-- 推荐开始 remGoods -->
@@ -260,7 +178,8 @@
           <div></div>
           <h3>为您推荐</h3>
         </header>
-        <div
+        <groupMallCardSecond :Good="remGoods" />
+        <!-- <div
           class="baokuan_main"
           v-for="(remGood, index) in remGoods"
           :key="index"
@@ -295,7 +214,7 @@
               </h4>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </section>
   </div>
@@ -305,10 +224,12 @@
 import GroupMall from "../../config/GroupMall";
 import publish from "../../config/publish";
 import groupMallCard from "../../components/groupMallCard";
+import groupMallCardSecond from "../../components/groupMallCardSecond";
 export default {
   name: "GroupMall",
   components: {
-    groupMallCard: groupMallCard
+    groupMallCard: groupMallCard,
+    groupMallCardSecond: groupMallCardSecond
   },
   data() {
     return {
@@ -324,20 +245,8 @@ export default {
     };
   },
   async created() {
-    //linshi tag
+    //获取userid
     publish.firstRes(this);
-    // this.$cookies.set("userid", "582");
-    // var code = this.getUrlParam("code");
-    // window.console.log(code);
-    // var local = encodeURIComponent(window.location.href);
-    // if (code == null || code == "") {
-    //   let scope = "snsapi_userinfo"; //snsapi_userinfo   //获取微信信息
-    //   let appid = "wxd2dabcb848f0aa1a";
-    //   window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${local}&response_type=code&scope=${scope}&state=state#wechat_redirect`;
-    // } else {
-    //   this.code = code;
-    //   this.getopenid_data(this.code);
-    // }
 
     try {
       const response = await GroupMall.getCategory();
@@ -394,9 +303,6 @@ export default {
     goSearch() {
       this.$router.push({ path: "/search" });
     },
-    // getCategory() {
-    //   this.$router.push({ path: "/search" });
-    // },
     async getGroupMallysGoodsList() {
       try {
         const response = await GroupMall.getGroupMallysGoods();
@@ -420,96 +326,11 @@ export default {
       this.ysGoods = this.djsgoods;
       // this.$refs.countDown.start();
     }
-    // // 请求openid的方法，需要后端写法
-    // getopenid_data(data) {
-    //   this.$http
-    //     .get("/member/open_id?code=" + data, {})
-    //     .then(res => {
-    //       window.console.log(res.data);
-    //       if (res.data.err_code == 0) {
-    //         this.user_info(res.data.data.open_id);
-    //         this.head_img_url = res.data.data.head_img_url;
-    //         this.nickname = res.data.data.nickname;
-    //       } else {
-    //         window.console.log(res.data.err_msg);
-    //       }
-    //     })
-    //     .catch(err => {
-    //       window.console.log(err);
-    //       // alert("请求失败");
-    //     });
-    // },
-    // // 注册 open_id,phone,username,email
-    // register(open_id) {
-    //   this.$http
-    //     .post("/member/register", {
-    //       open_id: open_id,
-    //       head_img_url: this.head_img_url,
-    //       nickname: this.nickname
-    //     })
-    //     .then(res => {
-    //       window.console.log(res);
-    //       if (res.data.err_code == 0) {
-    //         this.$cookies.set("userid", res.data.data.id); //return this
-    //         localStorage.setItem("head_img_url", res.data.data.head_img_url);
-    //         localStorage.setItem("nickname", res.data.data.nickname);
-    //       }
-    //     })
-    //     .catch(err => {
-    //       window.console.log(err);
-    //       // alert("请求失败");
-    //     });
-    // },
-    // //查询是否注册
-    // user_info(open_id) {
-    //   this.$http
-    //     .post("/member/info", {
-    //       open_id: open_id
-    //     })
-    //     .then(res => {
-    //       window.console.log(res.data);
-    //       if (res.data.err_code == 1) {
-    //         this.register(open_id);
-    //       } else if (res.data.err_code == 0) {
-    //         this.$cookies.set("userid", res.data.data.id); //return this
-    //         localStorage.setItem("head_img_url", res.data.data.head_img_url);
-    //         localStorage.setItem("nickname", res.data.data.nickname);
-    //       }
-    //     })
-    //     .catch(err => {
-    //       window.console.log(err);
-    //       // alert("请求失败");
-    //     });
-    // },
-    // getUrlParam(name) {
-    //   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    //   let url = window.location.href.split("#")[0];
-    //   let search = url.split("?")[1];
-    //   if (search) {
-    //     var r = search.substr(0).match(reg);
-    //     if (r !== null) return unescape(r[2]);
-    //     return null;
-    //   } else {
-    //     return null;
-    //   }
-    // }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.van-card__price {
-  color: red;
-  font-size: 0.14rem;
-  font-weight: 600;
-}
-
-.van-card__title {
-  color: #333;
-  font-size: 0.13rem;
-  font-weight: 600;
-}
-
 .shouye {
   background-color: #fff;
 }
@@ -788,7 +609,7 @@ export default {
   box-sizing: border-box;
   padding: 0 0.155rem;
   .baokuan_header {
-    height: 0.6rem;
+    height: 0.4rem;
     display: flex;
     align-items: center;
     div {

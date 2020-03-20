@@ -26,14 +26,6 @@
             <p>已拼{{ ysGood.buy_times }}</p>
           </div>
         </div>
-        <div slot="bottom" style="display:flex;">
-          <p>距离活动结束：</p>
-          <van-count-down
-            style="font-size:0.13rem;"
-            format="DD天HH:mm:ss"
-            :time="ysGood.expire_time"
-          />
-        </div>
       </van-card>
     </section>
   </div>
