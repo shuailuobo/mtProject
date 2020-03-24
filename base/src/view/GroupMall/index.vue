@@ -63,25 +63,26 @@
       <div class="miaosha">
         <ul>
           <li>
-            <router-link to="/spike">
+            <!-- 预售：type=1 秒杀：type=2 预售  type=3 折扣：type=5 热销爆款：type=4 水果 -->
+            <router-link :to="{ name: 'spike', query: { type: 1 } }">
               <img src="../../assets/GroupMall/xmiaosha@3x.png" alt />
               <h3>限时秒杀</h3>
             </router-link>
           </li>
           <li>
-            <router-link to="/advancesale">
+            <router-link :to="{ name: 'spike', query: { type: 2 } }">
               <img src="../../assets/GroupMall/xyushou@3x.png" alt />
               <h3>限时预售</h3>
             </router-link>
           </li>
           <li>
-            <router-link to="/discount">
+            <router-link :to="{ name: 'spike', query: { type: 3 } }">
               <img src="../../assets/GroupMall/xzhekou@3x.png" alt />
               <h3>限时折扣</h3>
             </router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'FruitBlending' }">
+            <router-link :to="{ name: 'spike', query: { type: 4 } }">
               <img src="../../assets/GroupMall/shuiguo@3x.png" alt />
               <h3>水果拼团</h3>
             </router-link>
@@ -284,7 +285,7 @@ export default {
     }
 
     try {
-      const response = await GroupMall.getGroupMallbkGoods();
+      const response = await GroupMall.getGroupMallysGoods("5");
       window.console.log(response.data);
       this.bkGoods = response.data.data;
     } catch (error) {

@@ -150,16 +150,18 @@
         <div class="grade">
           当前等级：
           <p v-if="is_partner == '1'">合伙人</p>
-          <p v-else-if="is_agent == '1'">
+          <p v-if="is_agent == '1'">
             {{
-              agent == "1"
+              agent_level == "1"
                 ? "试用期代理"
-                : agent == "2"
+                : agent_level == "2"
                 ? "初级代理"
-                : agent == "3"
-                ? "中级代理"
-                : agent == "4"
+                : agent_level == "3"
                 ? "高级代理"
+                : agent_level == "4"
+                ? "运营商"
+                : agent_level == "5"
+                ? "合伙人"
                 : "普通会员"
             }}
           </p>
@@ -168,26 +170,28 @@
         <div class="progressgrade">
           <van-progress pivot-text="当前" color="#FC5D65" :percentage="50" />
         </div>
-        <div class="surplus">
+        <div v-if="is_partner != '1' && is_agent == '1'" class="surplus">
           距离下一等级还差
           <span>{{ disparity }}</span
           >人
         </div>
-        <div class="surplus_1">
+        <div class="surplus_1" v-if="is_partner != '1' && is_agent == '1'">
           <div>
-            晋升条件：满足以下任一条件即刻升级为{{ mycondition[agent].t1 }}
+            晋升条件：满足以下任一条件即刻升级为{{
+              mycondition[agent_level].t1
+            }}
           </div>
           <p>
-            1、直接关注{{ mycondition[agent].t2 }}人且有{{
-              mycondition[agent].t3
+            1、直接关注{{ mycondition[agent_level].t2 }}人且有{{
+              mycondition[agent_level].t3
             }}人消费
           </p>
           <p>
             消费分为：领券去淘宝或京东或拼多多消费；在拼团商城消费；在微店消费。
           </p>
           <p>
-            2、有效代理{{ mycondition[agent].t4 }}名，即直接关注的成人有{{
-              mycondition[agent].t5
+            2、有效代理{{ mycondition[agent_level].t4 }}名，即直接关注的人有{{
+              mycondition[agent_level].t5
             }}人满足条件1。
           </p>
         </div>
@@ -216,32 +220,41 @@ export default {
       finished: false,
       myteamlist: [],
       list: [],
-      agent: "",
+      agent_level: "",
+      is_agent: "",
+      is_partner: "",
       disparity: "",
       mycondition: [
         {
-          t1: "初级代理",
+          t1: "普通会员",
           t2: 30,
           t3: 5,
           t4: 2,
           t5: 2
         },
         {
-          t1: "高级代理",
+          t1: "试用期代理",
+          t2: 30,
+          t3: 5,
+          t4: 2,
+          t5: 2
+        },
+        {
+          t1: "初级代理",
           t2: 80,
           t3: 20,
           t4: 4,
           t5: 4
         },
         {
-          t1: "运营商",
+          t1: "高级代理",
           t2: 200,
           t3: 50,
           t4: 10,
           t5: 10
         },
         {
-          t1: "合伙人",
+          t1: "运营商",
           t2: 300,
           t3: 80,
           t4: 20,
@@ -300,18 +313,20 @@ export default {
       const response = await GroupMall.getUserInfo(data);
       window.console.log(response.data);
       if (response.data.err_code == 0) {
-        this.agent = response.data.data.agent_level;
+        this.agent_level = response.data.data.agent_level;
+        this.is_agent = response.data.data.is_agent;
+        this.is_partner = response.data.data.is_partner;
         switch (response.data.data.agent_level) {
-          case "0":
+          case "1":
             this.disparity = 30 - this.list.length;
             break;
-          case "1":
+          case "2":
             this.disparity = 80 - this.list.length;
             break;
-          case "2":
+          case "3":
             this.disparity = 200 - this.list.length;
             break;
-          case "3":
+          case "4":
             this.disparity = 300 - this.list.length;
             break;
           default:

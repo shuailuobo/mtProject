@@ -67,26 +67,26 @@
           <div class="wdjf">
             <div class="wheader"><span></span>我的账户</div>
             <div class="wmain">
-              <!-- <div>
+              <div>
                 <p>累计积分总额</p>
                 <p>{{ total_point }}</p>
-              </div> -->
+              </div>
               <div>
                 <p>
-                  累计结算积分<span>{{ point }}</span>
+                  结算积分:<span>{{ buy_point }}</span>
                 </p>
                 <p>
-                  累计结算返利<span>{{ money }}</span>
+                  结算返利:<span>￥{{ money }}</span>
                 </p>
               </div>
-              <!-- <div>
+              <div>
                 <p>
-                  返利<span>{{ buy_frozen_point }}</span>
+                  团队预估积分:<span>{{ agent_frozen_point }}</span>
                 </p>
                 <p>
-                  团队预估积分<span>{{ agent_frozen_point }}</span>
+                  团队预估返利:<span>￥{{ agent_frozen_money }}</span>
                 </p>
-              </div> -->
+              </div>
             </div>
             <div class="wprice">
               <p>
@@ -183,31 +183,33 @@
             <div class="wheader"><span></span>团队提成</div>
             <div class="wmain">
               <div>
-                <p>¥0</p>
-                <p>上月结算收益</p>
+                <p>{{ agent_point }}</p>
+                <p>团队结算积分</p>
               </div>
               <div>
-                <p>¥0</p>
-                <p>本月预估收益</p>
+                <p>￥{{ agent_money }}</p>
+                <p>团队结算返利</p>
               </div>
             </div>
             <div class="wprice">
-              <p>可提现金额：<span>¥0</span></p>
+              <p>
+                可提现金额：<span>¥{{ money }}</span>
+              </p>
               <button @click.prevent="$router.push({ name: 'IncomeAssets' })">
                 去提现
               </button>
             </div>
           </div>
           <!-- 收益统计 -->
-          <div class="sytj">
+          <!-- <div class="sytj">
             <div class="wheader"><span></span>收益统计</div>
-            <div class="wmain">
-              <!-- <div>
+            <div class="wmain"> -->
+          <!-- <div>
                 <p>领券返利</p>
                 <p>今日:<span>¥25.45</span></p>
                 <p>累计:<span>¥425.57</span></p>
               </div> -->
-              <div>
+          <!-- <div>
                 <p>拼团商城</p>
                 <p>今日:<span>¥0</span></p>
                 <p>累计:<span>¥0</span></p>
@@ -218,7 +220,7 @@
                 <p>累计:<span>¥0</span></p>
               </div>
             </div>
-          </div>
+          </div> -->
           <!-- 教程指南 -->
           <div class="course">
             <img
@@ -294,7 +296,9 @@ export default {
       is_store: "",
       is_agent: "",
       is_partner: "",
-      agent_level: ""
+      agent_level: "",
+      agent_money: "",
+      agent_frozen_money: ""
     };
   },
   methods: {
@@ -405,11 +409,14 @@ export default {
           this.buy_frozen_point = response.data.data.buy_frozen_point; //自购预计积分
           this.agent_point = response.data.data.agent_point; //团队积分
           this.agent_frozen_point = response.data.data.agent_frozen_point; //团队预计积分
+
+          this.agent_frozen_money = response.data.data.agent_frozen_money;
           this.is_group = response.data.data.is_group; //团购审核  1 通过
           this.is_store = response.data.data.is_store; //微店审核
 
           this.is_partner = response.data.data.is_partner; // 是否是合伙人
           this.agent_level = response.data.data.agent_level; //代理等级
+          this.agent_money = response.data.data.agent_money;
         }
       } catch (error) {
         window.console.log(error.response);

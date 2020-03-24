@@ -39,11 +39,11 @@
     <div class="myassets">
       <div>
         <p>{{ balance }}</p>
-        <p @click="$router.push({ name: 'IncomeAssets' })">余额></p>
+        <p @click="$router.push({ name: 'AssembleIncomeAssets' })">余额></p>
       </div>
       <div>
         <p>{{ withdrawal_total }}</p>
-        <p @click="$router.push({ name: 'IncomeAssets' })">已提现></p>
+        <p @click="$router.push({ name: 'AssembleIncomeAssets' })">已提现></p>
       </div>
     </div>
   </div>

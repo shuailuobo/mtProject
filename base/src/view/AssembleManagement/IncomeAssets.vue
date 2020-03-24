@@ -66,7 +66,18 @@
           <van-cell
             :title="item.create_time"
             :value="'￥' + item.amount"
-            :label="item.bank_name"
+            :label="
+              item.bank_name +
+                '(' +
+                (item.status == '0'
+                  ? '待处理'
+                  : item.status == '1'
+                  ? '已通过'
+                  : item.status == '2'
+                  ? '已驳回'
+                  : '已取消') +
+                ')'
+            "
           />
         </section>
       </van-cell-group>
@@ -177,9 +188,9 @@ export default {
         window.console.log(response.data);
         if (response.data.err_code == 0) {
           this.WithdrawalList = response.data.data;
-          for (var i in response.data.data) {
-            this.withdrawal += Math.round(response.data.data[i].amount);
-          }
+          // for (var i in response.data.data) {
+          //   this.withdrawal += Math.round(response.data.data[i].amount);
+          // }
         }
       } catch (error) {
         window.console.log(error.response);
@@ -200,6 +211,21 @@ export default {
   mounted() {
     this.getBankCardList();
     this.getWithdrawalList();
+  },
+  async created() {
+    try {
+      let data = {
+        user_id: this.$cookies.get("userid")
+      };
+      const response = await BackStagemanagement.homeGroup(data);
+      window.console.log(response.data);
+      if (response.data.err_code == 0) {
+        this.balance = response.data.data.balance;
+        this.withdrawal = response.data.data.withdrawal_total;
+      }
+    } catch (error) {
+      window.console.log(error.response);
+    }
   }
 };
 </script>

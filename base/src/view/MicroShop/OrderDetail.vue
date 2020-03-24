@@ -49,10 +49,14 @@
             <p>商品总额</p>
             <p>¥{{ totalPrice }}</p>
           </li>
-          <!-- <li>
-            <p>优惠</p>
-            <p>¥{{ coupon_amount }}</p>
-          </li> -->
+          <li>
+            <p>账户积分抵扣</p>
+            <span>-{{ point }}</span>
+          </li>
+          <li>
+            <p>账户余额抵扣</p>
+            <span>-¥{{ money }}</span>
+          </li>
           <li v-if="shipping_type == 1">
             <p>运费</p>
             <p>¥{{ shipping_fee }}</p>
@@ -61,7 +65,7 @@
       </div>
       <div class="totalprice">
         <p>
-          合计<span>￥{{ totalPrice }}</span>
+          合计<span>￥{{ order_price }}</span>
         </p>
       </div>
     </div>
@@ -80,21 +84,29 @@
           <p>配送方式：</p>
           <p>{{ shipping_type == "1" ? "外卖配送" : "到店自取" }}</p>
         </li>
-        <li v-if="shipping_type == '1'">
-          <p>联系方式：</p>
-          <p>{{ contact + "  " + phone }}</p>
+        <li>
+          <p>店铺电话：</p>
+          <p>{{ store_phone }}</p>
         </li>
-        <li v-else>
-          <p>预留手机号</p>
-          <p>{{ valid_phone }}</p>
+        <li>
+          <p>店铺地址：</p>
+          <p>{{ store_address }}</p>
         </li>
 
         <li v-if="shipping_type == '1'">
-          <p>地址：</p>
+          <p>联系方式：</p>
+          <p>{{ contact + " " + phone }}</p>
+        </li>
+        <li v-if="shipping_type == '1'">
+          <p>配送地址：</p>
           <p>{{ address }}</p>
         </li>
 
-        <li v-else>
+        <li v-if="shipping_type == '2'">
+          <p>预留信息：</p>
+          <p>{{ valid_phone }}</p>
+        </li>
+        <li v-if="shipping_type == '2'">
           <p>预定时间：</p>
           <p>{{ pick_time }}</p>
         </li>
@@ -130,7 +142,9 @@ export default {
       pick_time: "",
       valid_phone: "",
       store_address: "",
-      store_phone: ""
+      store_phone: "",
+      point: "",
+      money: ""
     };
   },
   async created() {
@@ -163,6 +177,8 @@ export default {
       this.store_phone = response.data.data.store_phone;
 
       this.address = response.data.data.address;
+      this.point = response.data.data.point;
+      this.money = response.data.data.money;
     } catch (error) {
       window.console.log(error.response);
     }
@@ -172,7 +188,7 @@ export default {
       let total = 0;
       // console.log(this.selectFoods);
       this.selectFoods.forEach(food => {
-        total += food.price * food.quantity;
+        total += Math.round(food.price * food.quantity * 100) / 100;
       });
       return total;
     }

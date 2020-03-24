@@ -87,30 +87,31 @@
           <ul class="discounts">
             <li>
               <p>我的积分：{{ point }}</p>
-              <p>使用我的账户积分</p>
-              <p>
-                抵扣<span>{{ point }}</span
-                >元
-              </p>
+              <p>使用我的账户积分抵扣</p>
+              <!-- <p>
+            <span>{{ point }}</span>
+          </p> -->
               <p>
                 <van-switch
                   size="14px"
                   v-model="jfchecked"
+                  @change="jfTap"
                   active-color="#4CD864"
                 />
               </p>
             </li>
             <li>
               <p>我的账户：{{ money }}元</p>
-              <p>使用我的账户余额</p>
-              <p>
-                抵扣<span>{{ money }}</span
-                >元
-              </p>
+              <p>使用我的账户余额抵扣</p>
+              <!-- <p>
+            <span>{{ money }}</span
+            >元
+          </p> -->
               <p>
                 <van-switch
                   size="14px"
                   v-model="zhchecked"
+                  @change="zhTap"
                   active-color="#4CD864"
                 />
               </p>
@@ -189,30 +190,31 @@
           <ul class="discounts">
             <li>
               <p>我的积分：{{ point }}</p>
-              <p>使用我的账户积分</p>
-              <p>
-                抵扣<span>{{ point }}</span
-                >元
-              </p>
+              <p>使用我的账户积分抵扣</p>
+              <!-- <p>
+            <span>{{ point }}</span>
+          </p> -->
               <p>
                 <van-switch
                   size="14px"
                   v-model="jfchecked"
+                  @change="jfTap"
                   active-color="#4CD864"
                 />
               </p>
             </li>
             <li>
               <p>我的账户：{{ money }}元</p>
-              <p>使用我的账户余额</p>
-              <p>
-                抵扣<span>{{ money }}</span
-                >元
-              </p>
+              <p>使用我的账户余额抵扣</p>
+              <!-- <p>
+            <span>{{ money }}</span
+            >元
+          </p> -->
               <p>
                 <van-switch
                   size="14px"
                   v-model="zhchecked"
+                  @change="zhTap"
                   active-color="#4CD864"
                 />
               </p>
@@ -247,9 +249,13 @@ import "../../../static/css/vantreset.css";
 import GroupMall from "../../config/GroupMall";
 import MicroShop from "../../config/MicroShop";
 import wx from "weixin-jsapi";
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
+
 export default {
-  components: { [Toast.name]: Toast },
+  components: {
+    [Toast.name]: Toast,
+    [Dialog.Component.name]: Dialog.Component
+  },
   name: "delivery",
   data() {
     return {
@@ -276,10 +282,12 @@ export default {
       selectFoods: [],
       jfchecked: false,
       zhchecked: false,
+      addressId: "",
+      userPhone: "",
       money: "",
       point: "",
-      addressId: "",
-      userPhone: ""
+      choosepoint: 0,
+      choosemoney: 0
     };
   },
   methods: {
@@ -293,6 +301,20 @@ export default {
     onCancel() {
       this.arrivetimeflag = false;
     },
+    jfTap(value) {
+      if (value) {
+        this.choosepoint = this.point;
+      } else {
+        this.choosepoint = 0;
+      }
+    },
+    zhTap(value) {
+      if (value) {
+        this.choosemoney = Number(this.money);
+      } else {
+        this.choosemoney = 0;
+      }
+    },
     // onSubmit(index, title) {
     //   // this.$toast(title);
     //   this.$router.push({ name: "SuccessPay" });
@@ -303,8 +325,8 @@ export default {
           user_id: this.$cookies.get("userid"),
           shipping_type: this.shipping_type,
           addr_id: this.addressId,
-          point: this.point,
-          money: this.money,
+          // point: this.point,
+          // money: this.money,
           pick_time: this.arriveTime,
           valid_phone: this.userPhone
         };
@@ -328,31 +350,62 @@ export default {
         let data = {
           user_id: this.$cookies.get("userid"),
           out_trade_no: out_trade_no,
-          point: this.point
+          point: this.choosepoint,
+          money: this.choosemoney
         };
 
         const response = await MicroShop.microOrderPay(data);
         window.console.log(response.data);
         // this.$router.push({ name: "PaySucceed" });
         if (response.data.err_code == 0) {
-          let out_trade_no = response.data.data.out_trade_no;
-          wx.chooseWXPay({
-            appId: response.data.data.appid, //公众号名称，由商户传入
-            timestamp: response.data.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-            nonceStr: response.data.data.nonceStr, // 支付签名随机串，不长于 32 位
-            package: "prepay_id=" + response.data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-            signType: response.data.data.sign, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-            paySign: response.data.data.paySign, // 支付签名
-            success: function(res) {
-              window.console.log(res);
-              that.$router.push({
+          if (response.data.data.length == 0) {
+            Dialog.alert({
+              title: "提示",
+              message: "账户抵扣成功"
+            }).then(() => {
+              that.$router.replace({
                 name: "SuccessPay",
                 query: { out_trade_no: out_trade_no }
               });
-            }
-          });
-          // this.$router.push({ name: "ShopDetail", params: { id: id } });
+            });
+          } else {
+            wx.chooseWXPay({
+              appId: response.data.data.appid, //公众号名称，由商户传入
+              timestamp: response.data.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+              nonceStr: response.data.data.nonceStr, // 支付签名随机串，不长于 32 位
+              package: "prepay_id=" + response.data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+              signType: response.data.data.sign, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+              paySign: response.data.data.paySign, // 支付签名
+              success: function(res) {
+                window.console.log(res);
+                that.$router.replace({
+                  name: "SuccessPay",
+                  query: { out_trade_no: out_trade_no }
+                });
+              }
+            });
+          }
         }
+
+        // if (response.data.err_code == 0) {
+        //   let out_trade_no = response.data.data.out_trade_no;
+        //   wx.chooseWXPay({
+        //     appId: response.data.data.appid, //公众号名称，由商户传入
+        //     timestamp: response.data.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+        //     nonceStr: response.data.data.nonceStr, // 支付签名随机串，不长于 32 位
+        //     package: "prepay_id=" + response.data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+        //     signType: response.data.data.sign, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+        //     paySign: response.data.data.paySign, // 支付签名
+        //     success: function(res) {
+        //       window.console.log(res);
+        //       that.$router.push({
+        //         name: "SuccessPay",
+        //         query: { out_trade_no: out_trade_no }
+        //       });
+        //     }
+        //   });
+        //   // this.$router.push({ name: "ShopDetail", params: { id: id } });
+        // }
       } catch (error) {
         window.console.log(error.response);
       }
@@ -435,9 +488,10 @@ export default {
       let total = 0;
       // console.log(this.selectFoods);
       this.selectFoods.forEach(food => {
-        total += food.price * food.quantity * 100;
+        total += Math.round(food.price * food.quantity * 100) / 100;
       });
-      return total;
+      total = total + Number(this.delivery_fee);
+      return total * 100;
     }
   }
 };

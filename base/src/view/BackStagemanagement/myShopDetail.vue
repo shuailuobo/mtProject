@@ -166,7 +166,11 @@
             >
               <span class="name">{{ food.goods_name }}</span>
               <div class="price">
-                <span>￥{{ food.price * food.quantity }}</span>
+                <span
+                  >￥{{
+                    Math.round(food.price * food.quantity * 100) / 100
+                  }}</span
+                >
               </div>
               <div class="cartcontrol-wrapper">
                 <div class="cartcontroll">
@@ -490,7 +494,7 @@ export default {
       let total = 0;
       // console.log(this.selectFoods);
       this.selectFoods.forEach(food => {
-        total += food.price * food.quantity;
+        total += Math.round(food.price * food.quantity * 100) / 100;
       });
       return total;
     },

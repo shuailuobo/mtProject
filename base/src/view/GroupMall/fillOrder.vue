@@ -271,7 +271,7 @@ export default {
         window.console.log(response.data);
         // this.$router.push({ name: "PaySucceed" });
         if (response.data.err_code == 0) {
-          window.console.log(response.data.data.length);
+          // window.console.log(response.data.data.length);
           if (response.data.data.length == 0) {
             Dialog.alert({
               title: "提示",

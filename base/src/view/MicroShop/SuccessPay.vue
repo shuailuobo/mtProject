@@ -17,13 +17,23 @@
           <p>店铺：</p>
           <p>{{ store_name }}</p>
         </li>
-        <li>
+        <li v-if="shipping_type == '2'">
+          <p>店铺电话：：</p>
+          <p>
+            {{ store_phone }}
+          </p>
+        </li>
+        <li v-if="shipping_type == '2'">
+          <p>店铺地址：</p>
+          <p>{{ storeAddress }}</p>
+        </li>
+        <li v-if="shipping_type == '1'">
           <p>收货人：</p>
           <p>
             {{ contact }} <span>{{ phone }}</span>
           </p>
         </li>
-        <li>
+        <li v-if="shipping_type == '1'">
           <p>收货地址：</p>
           <p>{{ address }}</p>
         </li>
@@ -72,12 +82,14 @@ export default {
       phone: "",
       shipping_type: "",
       selectFoods: [],
-      store_name: ""
+      store_name: "",
+      storeAddress: "",
+      store_phone: ""
     };
   },
   methods: {
     linkMyorder() {
-      this.$router.push({ name: "MyOrder", params: { activeIndex: 1 } });
+      this.$router.replace({ name: "MyOrder", params: { activeIndex: 1 } });
     }
   },
   async created() {
@@ -96,6 +108,10 @@ export default {
       this.contact = response.data.data.contact;
       this.address = response.data.data.address;
       this.phone = response.data.data.phone;
+
+      this.storeAddress =
+        response.data.data.store_region + response.data.data.store_address;
+      this.store_phone = response.data.data.store_phone;
     } catch (error) {
       window.console.log(error.response);
     }

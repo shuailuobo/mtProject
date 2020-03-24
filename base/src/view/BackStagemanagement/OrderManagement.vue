@@ -38,15 +38,15 @@
       <div class="feedetail">
         <div>
           <p>付款金额</p>
-          <p>￥{{ item.total_price }}</p>
+          <p>￥{{ item.order_price }}</p>
         </div>
-        <!-- <div>
-          <p>领券</p>
-          <p>￥{{ item.coupon_id }}</p>
-        </div> -->
         <div>
-          <p>预估积分补贴</p>
+          <p>积分补贴</p>
           <p>{{ item.profit }}</p>
+        </div>
+        <div>
+          <p>代理补贴</p>
+          <p>￥{{ item.agent_profit }}</p>
         </div>
       </div>
       <div class="addtime">

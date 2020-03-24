@@ -10,21 +10,24 @@ export default {
   getGroupMallMessage() { //公告
     return request.get('/group/message')
   },
-  getGroupMallysGoods() { //预售：type=1 秒杀：type=2 预售  type=3 折扣：type=5 热销爆款：type=4 水果
-    return request.get('/group/goods?type=2')
+  getGroupMallysGoods(type) { //预售：type=1 秒杀：type=2 预售  type=3 折扣：type=5 热销爆款：type=4 水果
+    return request.get('/group/goods?type=' + type)
   },
-  getGroupMallbkGoods() { //预售：type=2 热销爆款：type=5
-    return request.get('/group/goods?type=5')
-  },
-  getGroupMallmsGoods() { //预售：type=2 热销爆款：type=5
-    return request.get('/group/goods?type=1')
-  },
-  getGroupMallzkGoods() { //预售：type=2 热销爆款：type=5
-    return request.get('/group/goods?type=3')
-  },
-  getGroupMallsgGoods() { //预售：type=2 热销爆款：type=5
-    return request.get('/group/goods?type=4')
-  },
+  // getGroupMallysGoods() { //预售：type=1 秒杀：type=2 预售  type=3 折扣：type=5 热销爆款：type=4 水果
+  //   return request.get('/group/goods?type=2')
+  // },
+  // getGroupMallbkGoods() { //预售：type=2 热销爆款：type=5
+  //   return request.get('/group/goods?type=5')
+  // },
+  // getGroupMallmsGoods() { //预售：type=2 热销爆款：type=5
+  //   return request.get('/group/goods?type=1')
+  // },
+  // getGroupMallzkGoods() { //预售：type=2 热销爆款：type=5
+  //   return request.get('/group/goods?type=3')
+  // },
+  // getGroupMallsgGoods() { //预售：type=2 热销爆款：type=5
+  //   return request.get('/group/goods?type=4')
+  // },
   getGoodsDetail(data) { //商品详情
     return request.post('/group/goods/detail', data)
   },

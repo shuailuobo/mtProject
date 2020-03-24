@@ -4,7 +4,8 @@
     </HeaderTop> -->
     <section>
       <div v-if="nogoods">暂无商品</div>
-      <div
+      <groupMallCardSecond :Good="categoryLists" />
+      <!-- <div
         class="xiangqin_main"
         v-for="(categoryList, index) in categoryLists"
         :key="index"
@@ -40,17 +41,19 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
   </div>
 </template>
 <script>
-import HeaderTop from "@/components/HeaderTop/index";
+// import HeaderTop from "@/components/HeaderTop/index";
 import GroupMall from "../../config/GroupMall";
+import groupMallCardSecond from "../../components/groupMallCardSecond";
 export default {
   name: "CategorizedGoods",
   components: {
-    HeaderTop
+    // HeaderTop
+    groupMallCardSecond: groupMallCardSecond
   },
   data() {
     return {

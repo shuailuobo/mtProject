@@ -36,7 +36,9 @@
           </div>
         </div>
       </div> -->
-      <div
+
+      <groupMallCardThird :Good="msGoods" />
+      <!-- <div
         class="xiangqin_main"
         v-for="(msGood, index) in msGoods"
         :key="index"
@@ -58,8 +60,6 @@
                   format="DD天HH:mm:ss"
                   :time="msGood.expire_time"
                 />
-                <!-- <h3>倒计时</h3>
-                <span>23</span><i>:</i><span>12</span><i>:</i><span>22</span> -->
               </div>
             </div>
             <div class="baokuan_main_right">
@@ -75,13 +75,7 @@
                 <span
                   >代理购预估提成<i>￥{{ msGood.agent_profit }}</i></span
                 >
-                <!-- <div>已拼{{ msGood.buy_times }}</div> -->
               </h4>
-              <!-- <div class="baokuanzigoujiage">自购预估积分<span>1222</span></div> -->
-              <!-- <h4>
-                <span>代购预估提成<i>￥6.99</i></span>
-                <div>已拼{{msGood.buy_times}}</div>
-              </h4> -->
               <h4>
                 <span>已拼{{ msGood.buy_times }}</span>
                 <div>
@@ -91,16 +85,17 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
   </div>
 </template>
 <script>
-import HeaderTop from "@/components/HeaderTop/index";
+// import HeaderTop from "@/components/HeaderTop/index";
+import groupMallCardThird from "../../components/groupMallCardThird";
 import GroupMall from "../../config/GroupMall";
 export default {
   components: {
-    HeaderTop
+    groupMallCardThird
   },
   data() {
     return {
@@ -116,7 +111,9 @@ export default {
   methods: {
     async getGroupMallmsGoodsList() {
       try {
-        const response = await GroupMall.getGroupMallmsGoods();
+        const response = await GroupMall.getGroupMallysGoods(
+          this.$route.query.type
+        );
         window.console.log(response.data.data);
         // this.djsgoods = response.data.data;
         if (response.data.data.length > 0) {
@@ -147,165 +144,5 @@ export default {
 <style lang="less" scoped>
 .miaosha {
   background-color: #fff;
-}
-.xiangqin_main {
-  padding: 0 0.15rem;
-}
-.baokuan_main {
-  height: 1.4rem;
-  padding: 0.05rem 0;
-  position: relative;
-  border-bottom: 1px solid #eee;
-  // @include bottom-border-1px(#eee);
-  .baokuan_mainBox {
-    height: 1.2rem;
-    // display: flex;
-    overflow: hidden;
-    .baokuan_main_left {
-      float: left;
-      width: 1.2rem;
-      height: 1.2rem;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .baokuan_main_right {
-      float: left;
-      padding-left: 0.155rem;
-      > h3 {
-        line-height: 0.2rem;
-        max-width: 2.085rem;
-        font-size: 0.13rem;
-        font-weight: 700;
-        color: #333;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      }
-      .baokuanjiage {
-        // margin-top: 0.125rem;
-        // line-height: 0.3rem;
-        span {
-          font-size: 0.16rem;
-          color: #f92d36;
-          margin-right: 0.15rem;
-        }
-        i {
-          font-style: normal;
-          font-size: 0.1rem;
-          color: #999999;
-          position: relative;
-          &::before {
-            content: "";
-            width: 100%;
-            height: 0.005rem;
-            background-color: #999999;
-            position: absolute;
-            top: 0.06rem;
-            left: 0;
-            transform: rotate(7deg);
-            -ms-transform: rotate(7deg);
-            -webkit-transform: rotate(7deg);
-            -o-transform: rotate(7deg);
-          }
-        }
-      }
-      .baokuanzigoujiage {
-        margin-top: 0.05rem;
-        font-style: normal;
-        font-size: 0.11rem;
-        color: #999999;
-        display: flex;
-        align-items: center;
-
-        div {
-          width: 0.75rem;
-          height: 0.05rem;
-          border: 1px solid #fc5d65;
-          border-radius: 5px;
-          margin-right: 0.1rem;
-          h3 {
-            width: 30%;
-            height: 100%;
-            border-radius: 5px;
-            background-color: #fc5d65;
-          }
-        }
-        span {
-          // margin-left: 0.1rem;
-          color: #999999;
-          font-size: 0.1rem;
-        }
-      }
-      h4 {
-        // margin-top: 0.05rem;
-        font-size: 0.11rem;
-        color: #666;
-        line-height: 0.2rem;
-        position: relative;
-        span {
-          i {
-            font-style: normal;
-            margin-left: 0.05rem;
-            color: #f92d36;
-          }
-        }
-        div {
-          font-style: normal;
-          position: absolute;
-          top: 0;
-          right: 0;
-        }
-      }
-    }
-  }
-}
-.daojishi {
-  box-sizing: border-box;
-  line-height: 0.24rem;
-  padding-left: 0.15rem;
-  position: absolute;
-  bottom: 0.15rem;
-  left: 0;
-  height: 0.24rem;
-  text-align: center;
-  display: flex;
-  width: 1.2rem;
-  background-color: #fc5d65;
-  font-size: 0.12rem;
-  color: #fff;
-  h3 {
-    margin-right: 0.05rem;
-  }
-  i {
-    font-style: normal;
-    margin: 0 0.01rem;
-  }
-}
-.mybtn {
-  display: inline-block;
-  position: relative;
-  padding: 0;
-  width: 0.6rem;
-  height: 0.24rem;
-  font-size: 0.12rem;
-  font-weight: normal;
-  line-height: 0.18rem;
-  background-color: #fc5d65;
-  border-radius: 4px;
-  text-align: center;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-appearance: none;
-  -webkit-text-size-adjust: 100%;
-  color: #fff;
-}
-
-.van-count-down,
-.van-divider {
-  color: #fff;
 }
 </style>

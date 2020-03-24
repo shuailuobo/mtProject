@@ -486,14 +486,14 @@
                       <p>付款金额</p>
                       <p>￥{{ item.order_price }}</p>
                     </div>
-                    <!-- <div>
-                      <p>领券</p>
-                      <p>￥{{ item.coupon_id }}</p>
-                    </div> -->
                     <div>
                       <p>积分补贴</p>
-                      <p>{{ item.total_profit }}</p>
+                      <p>{{ item.profit }}</p>
                     </div>
+                    <!-- <div>
+                      <p>代理补贴</p>
+                      <p>￥{{ item.agent_profit }}</p>
+                    </div> -->
                   </div>
                   <div class="addtime">
                     <p>{{ item.create_time }} 创建</p>
@@ -755,8 +755,13 @@ export default {
         const response = await MicroShop.microOrderConfirm(data); //订单状态查看：0未处理 1已发货 2已完成 3已取消
         //团购状态 0进行中 1结束 2失败
         window.console.log(response.data);
-        if (response.data.data.length > 0) {
+        if (response.data.err_code == 0) {
           this.getMicroShopOrder();
+          Dialog.alert({
+            message: "已确认收货"
+          }).then(() => {
+            // on close
+          });
         }
       } catch (error) {
         window.console.log(error.response);
@@ -774,7 +779,6 @@ export default {
         window.console.log(response.data);
         if (response.data.err_code == 0) {
           this.groupOrderList();
-
           Dialog.alert({
             message: "已确认收货"
           }).then(() => {

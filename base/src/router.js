@@ -6,7 +6,7 @@ import PersonalCenter from '@/view/PersonalCenter/index.vue'
 // import Myorder from '@/view/GroupMall/Myorder.vue'
 import CategorizedGoods from '@/view/GroupMall/CategorizedGoods.vue'
 import CommodityDetails from '@/view/GroupMall/CommodityDetails.vue'
-import Spike from '@/view/GroupMall/Spike.vue'
+// import Spike from '@/view/GroupMall/Spike.vue'
 import AdvanceSale from '@/view/GroupMall/AdvanceSale.vue'
 import Discount from '@/view/GroupMall/Discount.vue'
 import AllEvaluate from '@/view/AllEvaluate/index'
@@ -393,6 +393,9 @@ const routes = [{
       title: '提现说明'
     }
   }, {
+    name: 'spike',
+    component: () => import('./view/GroupMall/Spike.vue'),
+  }, {
     path: '/allevaluate',
     name: 'AllEvaluate',
     component: AllEvaluate
@@ -412,10 +415,6 @@ const routes = [{
     path: '/commoditydetails/:id',
     name: 'CommodityDetails',
     component: CommodityDetails
-  }, {
-    path: '/spike',
-    name: 'Spike',
-    component: Spike
   }, {
     path: '/advancesale',
     name: 'AdvanceSale',

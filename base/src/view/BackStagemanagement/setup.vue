@@ -140,7 +140,7 @@
       </div>
     </van-form>
 
-    <div style="width:100%;overflow:scroll;">{{ responsedetail }}</div>
+    <!-- <div style="width:100%;overflow:scroll;">{{ responsedetail }}</div> -->
   </div>
 </template>
 
@@ -157,7 +157,7 @@ export default {
   },
   data() {
     return {
-      responsedetail: "",
+      // responsedetail: "",
       store_id: "",
       name: "",
       intro: "",
@@ -251,8 +251,8 @@ export default {
         };
         const response = await BackStagemanagement.storeSave(data);
         window.console.log(response.data);
-        this.responsedetail =
-          JSON.stringify(data) + "|||" + JSON.stringify(response.data);
+        // this.responsedetail =
+        //   JSON.stringify(data) + "|||" + JSON.stringify(response.data);
         if (response.data.err_code == 0) {
           Dialog.alert({
             title: "提示",
