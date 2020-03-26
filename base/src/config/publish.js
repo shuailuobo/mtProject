@@ -8,15 +8,19 @@ export default {
     return request.post('/group/goods/category', data)
   },
   firstRes(that) { //获取code
-    let code = this.getUrlParam("code");
-    let local = encodeURIComponent(window.location.href);
-    if (code == null || code == "") {
-      let scope = "snsapi_userinfo"; //snsapi_userinfo   //获取微信信息
-      let appid = "wxd2dabcb848f0aa1a";
-      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${local}&response_type=code&scope=${scope}&state=state#wechat_redirect`;
-    } else {
-      this.getopenid_data(code, that);
+    window.console.log(that.$cookies.get("userid"));
+    if (that.$cookies.get("userid") == null || that.$cookies.get("userid") == '' || that.$cookies.get("userid") == undefined) {
+      let code = this.getUrlParam("code");
+      let local = encodeURIComponent(window.location.href);
+      if (code == null || code == "") {
+        let scope = "snsapi_userinfo"; //snsapi_userinfo   //获取微信信息
+        let appid = "wxd2dabcb848f0aa1a";
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${local}&response_type=code&scope=${scope}&state=1#wechat_redirect`;
+      } else {
+        this.getopenid_data(code, that);
+      }
     }
+
   },
   // 请求openid的方法，需要后端写法
   getopenid_data(data, that) {

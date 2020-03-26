@@ -111,8 +111,12 @@
     </section>
     <!-- 预售开始 -->
     <section>
-      <van-cell value="查看更多" is-link to="/advancesale">
-        <!-- 使用 title 插槽来自定义标题 -->
+      <!-- <van-cell value="查看更多" is-link to="/advancesale" > -->
+      <van-cell
+        value="查看更多"
+        is-link
+        :to="{ name: 'spike', query: { type: 2 } }"
+      >
         <template slot="title">
           <img
             style="width:0.15rem;height:auto;vertical-align:middle;margin-right:0.05rem;"
@@ -304,7 +308,7 @@ export default {
     },
     async getGroupMallysGoodsList() {
       try {
-        const response = await GroupMall.getGroupMallysGoods();
+        const response = await GroupMall.getGroupMallysGoods("2");
         window.console.log(response.data);
         if (response.data.data.length > 0) {
           this.djsgoods = response.data.data.slice(0, 3);

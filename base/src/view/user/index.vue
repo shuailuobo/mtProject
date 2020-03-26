@@ -270,7 +270,7 @@
 <script>
 import "../../../static/css/vantreset.css";
 import GroupMall from "../../config/GroupMall";
-import publish from "../../config/publish";
+// import publish from "../../config/publish";
 // import HeaderTop from "../../components/HeaderTop/index";
 export default {
   components: {
@@ -298,7 +298,8 @@ export default {
       is_partner: "",
       agent_level: "",
       agent_money: "",
-      agent_frozen_money: ""
+      agent_frozen_money: "",
+      user_id: this.$cookies.get("userid")
     };
   },
   methods: {
@@ -313,80 +314,80 @@ export default {
       this.$router.push({ name: "myteam" });
     },
     // 请求openid的方法，需要后端写法
-    // getopenid_data(data) {
-    //   this.$http
-    //     .get("/member/open_id?code=" + data, {})
-    //     .then(res => {
-    //       window.console.log(res.data);
-    //       if (res.data.err_code == 0) {
-    //         this.user_info(res.data.data.open_id);
-    //         this.head_img_url = res.data.data.head_img_url;
-    //         this.nickname = res.data.data.nickname;
-    //       } else {
-    //         window.console.log(res.data.err_msg);
-    //       }
-    //     })
-    //     .catch(err => {
-    //       window.console.log(err);
-    //       // alert("请求失败");
-    //     });
-    // },
+    getopenid_data(data) {
+      this.$http
+        .get("/member/open_id?code=" + data, {})
+        .then(res => {
+          window.console.log(res.data);
+          if (res.data.err_code == 0) {
+            this.user_info(res.data.data.open_id);
+            this.head_img_url = res.data.data.head_img_url;
+            this.nickname = res.data.data.nickname;
+          } else {
+            window.console.log(res.data.err_msg);
+          }
+        })
+        .catch(err => {
+          window.console.log(err);
+          // alert("请求失败");
+        });
+    },
     // 注册 open_id,phone,username,email
-    // register(open_id) {
-    //   this.$http
-    //     .post("/member/register", {
-    //       open_id: open_id,
-    //       head_img_url: this.head_img_url,
-    //       nickname: this.nickname
-    //     })
-    //     .then(res => {
-    //       window.console.log(res);
-    //       if (res.data.err_code == 0) {
-    //         this.$cookies.set("userid", res.data.data.id); //return this
-    //         this.myUserInfo();
-    //         localStorage.setItem("head_img_url", res.data.data.head_img_url);
-    //         localStorage.setItem("nickname", res.data.data.nickname);
-    //       }
-    //     })
-    //     .catch(err => {
-    //       window.console.log(err);
-    //       // alert("请求失败");
-    //     });
-    // },
-    //查询是否注册
-    // user_info(open_id) {
-    //   this.$http
-    //     .post("/member/info", {
-    //       open_id: open_id
-    //     })
-    //     .then(res => {
-    //       window.console.log(res.data);
-    //       if (res.data.err_code == 1) {
-    //         this.register(open_id);
-    //       } else if (res.data.err_code == 0) {
-    //         this.$cookies.set("userid", res.data.data.id); //return this
-    //         this.myUserInfo();
-    //         localStorage.setItem("head_img_url", res.data.data.head_img_url);
-    //         localStorage.setItem("nickname", res.data.data.nickname);
-    //       }
-    //     })
-    //     .catch(err => {
-    //       window.console.log(err);
-    //       // alert("请求失败");
-    //     });
-    // },
-    // getUrlParam(name) {
-    //   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    //   let url = window.location.href.split("#")[0];
-    //   let search = url.split("?")[1];
-    //   if (search) {
-    //     var r = search.substr(0).match(reg);
-    //     if (r !== null) return unescape(r[2]);
-    //     return null;
-    //   } else {
-    //     return null;
-    //   }
-    // },
+    register(open_id) {
+      this.$http
+        .post("/member/register", {
+          open_id: open_id,
+          head_img_url: this.head_img_url,
+          nickname: this.nickname
+        })
+        .then(res => {
+          window.console.log(res);
+          if (res.data.err_code == 0) {
+            this.$cookies.set("userid", res.data.data.id); //return this
+            this.myUserInfo();
+            localStorage.setItem("head_img_url", res.data.data.head_img_url);
+            localStorage.setItem("nickname", res.data.data.nickname);
+          }
+        })
+        .catch(err => {
+          window.console.log(err);
+          // alert("请求失败");
+        });
+    },
+    // 查询是否注册
+    user_info(open_id) {
+      this.$http
+        .post("/member/info", {
+          open_id: open_id
+        })
+        .then(res => {
+          window.console.log(res.data);
+          if (res.data.err_code == 1) {
+            this.register(open_id);
+          } else if (res.data.err_code == 0) {
+            this.$cookies.set("userid", res.data.data.id); //return this
+            this.myUserInfo();
+            localStorage.setItem("head_img_url", res.data.data.head_img_url);
+            localStorage.setItem("nickname", res.data.data.nickname);
+          }
+        })
+        .catch(err => {
+          window.console.log(err);
+          // alert("请求失败");
+        });
+    },
+    getUrlParam(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      let url = window.location.href.split("#")[0];
+      let search = url.split("?")[1];
+      if (search) {
+        var r = search.substr(0).match(reg);
+        if (r !== null) return unescape(r[2]);
+        return null;
+      } else {
+        return null;
+      }
+    },
     async myUserInfo() {
       //查询用户信息 getUserInfo(data)
       try {
@@ -455,18 +456,24 @@ export default {
   },
   async created() {
     // this.$cookies.set("userid", "582");
-    publish.firstRes(this);
-    // var code = this.getUrlParam("code");
-    // window.console.log(code);
-    // var local = encodeURIComponent(window.location.href);
-    // if (code == null || code == "") {
-    //   let scope = "snsapi_userinfo"; //snsapi_userinfo   //获取微信信息
-    //   let appid = "wxd2dabcb848f0aa1a";
-    //   window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${local}&response_type=code&scope=${scope}&state=state#wechat_redirect`;
-    // } else {
-    //   this.code = code;
-    //   this.getopenid_data(this.code);
-    // }
+    // publish.firstRes(this, "getUser");
+    if (
+      this.$cookies.get("userid") == null ||
+      this.$cookies.get("userid") == "" ||
+      this.$cookies.get("userid") == undefined
+    ) {
+      var code = this.getUrlParam("code");
+      window.console.log(code);
+      var local = encodeURIComponent(window.location.href);
+      if (code == null || code == "") {
+        let scope = "snsapi_userinfo"; //snsapi_userinfo   //获取微信信息
+        let appid = "wxd2dabcb848f0aa1a";
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${local}&response_type=code&scope=${scope}&state=1#wechat_redirect`;
+      } else {
+        this.code = code;
+        this.getopenid_data(this.code);
+      }
+    }
   },
   mounted() {
     this.myUserInfo();
